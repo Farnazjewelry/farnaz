@@ -1,1 +1,13 @@
-{"products":[],"settings":{}}
+{
+  "products": [],
+  "settings": {
+    "telegram": "",
+    "video_url": "",
+    "video_url2": "",
+    "video_url3": "",
+    "hero_tag": "✦ New Collection",
+    "hero_title": "Discover Something Extraordinary",
+    "hero_sub": "Curated products, premium quality. Shop at Farnaz Jewelry.",
+    "coll_sub": "Handpicked, premium products just for you"
+  }
+}
