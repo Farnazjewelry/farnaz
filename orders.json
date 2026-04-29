@@ -1,13 +1,7 @@
 [
   {
-    "id": "FJ-2025-001",
-    "status": "Cancelled",
-    "note": "",
-    "updatedAt": "29 Apr 2026"
-  },
-  {
     "id": "FJ-2025-003",
-    "status": "Cancelled",
+    "status": "Order Received",
     "note": "",
     "updatedAt": "29 Apr 2026"
   }
