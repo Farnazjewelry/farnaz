@@ -1,8 +1,14 @@
 [
   {
+    "id": "FJ-2025-002",
+    "status": "Out for Delivery",
+    "note": "test",
+    "updatedAt": "29 Apr 2026"
+  },
+  {
     "id": "FJ-2025-001",
-    "status": "Shipped",
-    "note": "3 gun",
+    "status": "Order Received",
+    "note": "2 Gun sonra cargoya verecek",
     "updatedAt": "29 Apr 2026"
   }
 ]
