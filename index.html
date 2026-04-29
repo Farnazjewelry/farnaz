@@ -966,20 +966,31 @@ async function saveOrders() {
   localStorage.setItem('ff_orders', JSON.stringify(ORDERS));
   if (!GH.token) {
     toast('⚠️ No GitHub token — saved locally only', 'error');
+    renderTrackingTable();
+    document.getElementById('sv-tk').textContent = ORDERS.length;
     return;
   }
   try {
+    // Always get fresh SHA from GitHub API (never cached)
     let sha;
-    try { const existing = await ghGet('orders.json'); sha = existing.sha; } catch(e) {}
+    try {
+      const r = await fetch('https://api.github.com/repos/'+GH.user+'/'+GH.repo+'/contents/orders.json', {
+        headers: {'Authorization':'token '+GH.token, 'Accept':'application/vnd.github.v3+json'},
+        cache: 'no-store'
+      });
+      if (r.ok) { const f = await r.json(); sha = f.sha; }
+    } catch(e) {}
+
+    // Push updated orders (with or without SHA)
     await ghPut('orders.json', JSON.stringify(ORDERS, null, 2), sha);
     localStorage.setItem('ff_orders', JSON.stringify(ORDERS));
     toast('✅ Saved & live on GitHub!', 'success');
-    // Re-render admin table immediately with current in-memory data
-    renderTrackingTable();
-    document.getElementById('sv-tk').textContent = ORDERS.length;
   } catch(e) {
     toast('⚠️ GitHub sync failed: ' + e.message, 'error');
   }
+  // Always re-render table regardless of success/failure
+  renderTrackingTable();
+  document.getElementById('sv-tk').textContent = ORDERS.length;
 }
 
 // ===== ADMIN TRACKING =====
@@ -1028,10 +1039,9 @@ function editOrder(id) {
 
 async function deleteOrder(id) {
   if(!confirm('Delete order '+id+'?')) return;
-  ORDERS=ORDERS.filter(function(o){ return o.id!==id; });
+  toast('⏳ Deleting…');
+  ORDERS = ORDERS.filter(function(o){ return o.id !== id; });
   await saveOrders();
-  document.getElementById('sv-tk').textContent=ORDERS.length;
-  renderTrackingTable();
 }
 
 function renderTrackingTable() {
